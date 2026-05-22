@@ -1,7 +1,7 @@
+import '@/lib/polyfill';
 import { NextRequest, NextResponse } from 'next/server';
 import { supabase } from '@/lib/supabaseClient';
 import { anthropic } from '@/lib/anthropicClient';
-import { PDFParse } from 'pdf-parse';
 
 export const maxDuration = 60; // Allow enough time for parallel LLM queries (standard Vercel limit up to 60s on Hobby/Pro)
 
@@ -134,6 +134,7 @@ export async function POST(request: NextRequest) {
 
     if (fileType === 'application/pdf' || file.name.endsWith('.pdf')) {
       try {
+        const { PDFParse } = await import('pdf-parse');
         const parser = new PDFParse({ data: arrayBuffer });
         const parsedTextResult = await parser.getText();
         extractedText = parsedTextResult.text || '';
