@@ -134,9 +134,8 @@ export async function POST(request: NextRequest) {
 
     if (fileType === 'application/pdf' || file.name.endsWith('.pdf')) {
       try {
-        const { createRequire } = await import('node:module');
-        const require = createRequire(import.meta.url);
-        const workerPath = require.resolve('pdfjs-dist/legacy/build/pdf.worker.mjs');
+        const path = await import('node:path');
+        const workerPath = path.join(process.cwd(), 'node_modules/pdfjs-dist/legacy/build/pdf.worker.mjs');
 
         const { PDFParse } = await import('pdf-parse');
         PDFParse.setWorker(workerPath);
