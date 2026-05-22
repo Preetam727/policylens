@@ -401,7 +401,6 @@ export default function PolicyLensApp() {
     } catch (err: any) {
       console.error('Upload error:', err);
       setUploadError(err.message || 'An error occurred during policy analysis.');
-      setIsUploading(false);
     }
   };
 
@@ -1554,7 +1553,11 @@ export default function PolicyLensApp() {
                 <p className="font-bold text-sm">Analysis Failed</p>
                 <p className="mt-1 text-[11px] leading-relaxed">{uploadError}</p>
                 <button
-                  onClick={() => setIsUploading(false)}
+                  onClick={() => {
+                    setIsUploading(false);
+                    setUploadError(null);
+                    setUploadFile(null);
+                  }}
                   className="mt-3.5 px-4 py-1.5 bg-rose-600 hover:bg-rose-500 text-white font-bold rounded-lg transition-all shadow-md shadow-rose-200"
                 >
                   Close & Retry
